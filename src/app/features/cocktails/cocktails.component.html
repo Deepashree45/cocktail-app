@@ -1,0 +1,109 @@
+<app-spinner *ngIf="loading"></app-spinner>
+<div class="breadcrumb" *ngIf="!loading && cocktails.length">
+  <a routerLink="/">Home</a> &gt;
+  <span class="breadcrumb-current">{{ formattedCocktailName }}</span>
+</div>
+
+<div class="cocktail-page" *ngIf="!loading && cocktails.length">
+  <div class="sidebar">
+    <aside class="filter-panel">
+      <h3>Filter</h3>
+      <label>
+        <input
+          type="checkbox"
+          [checked]="filters.alcoholic"
+          (change)="toggleFilter('alcoholic', $event)"
+        />
+        Alcoholic
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          [checked]="filters.nonAlcoholic"
+          (change)="toggleFilter('nonAlcoholic', $event)"
+        />
+        Non-Alcoholic
+      </label>
+    </aside>
+    <div class="vertical-divider"></div>
+  </div>
+
+  <section class="main-section">
+    <h2 class="page-heading">
+      Cocktails List for
+      <span class="highlight">{{ formattedCocktailName }}</span>
+    </h2>
+
+    <div class="top-row">
+      <div class="sort" (click)="toggleSort()">
+        <span class="sort-label">Sort by:</span>
+        <span class="sort-value">Name</span>
+        <span class="material-icons sort-icon">
+          {{ sortAsc ? "arrow_upward" : "arrow_downward" }}
+        </span>
+      </div>
+
+      <div class="search-wrapper">
+        <ng-container *ngIf="showSearch; else collapsed">
+          <span class="cancel" (click)="toggleSearch()">Cancel</span>
+          <div class="search-box">
+            <input
+              type="text"
+              [(ngModel)]="searchText"
+              placeholder="Search cocktails..."
+            />
+            <span class="material-icons icon">search</span>
+          </div>
+        </ng-container>
+
+        <ng-template #collapsed>
+          <div class="search-collapsed" (click)="toggleSearch()">
+            <span class="search-label">Search</span>
+            <span class="material-icons search-icon">search</span>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="cocktail-grid">
+      <a
+        class="card"
+        *ngFor="
+          let cocktail of cocktails
+            | cocktailFilter : searchText : filters : sortAsc;
+          trackBy: trackById
+        "
+        [routerLink]="[
+          '/ingredients',
+          cocktailGroup,
+          getUrlName(cocktail.strDrink)
+        ]"
+      >
+        <div class="card-image">
+          <img
+            [src]="cocktail.strDrinkThumb"
+            alt="{{ cocktail.strDrink }}"
+            loading="lazy"
+          />
+          <div class="card-overlay">
+            <button class="see-recipe">See Ingredients</button>
+          </div>
+        </div>
+        <div class="card-footer">
+          <h4>{{ cocktail.strDrink }}</h4>
+          <p>{{ cocktail.strAlcoholic }} | {{ cocktail.strCategory }}</p>
+        </div>
+      </a>
+    </div>
+
+    <p
+      *ngIf="
+        (cocktails | cocktailFilter : searchText : filters : sortAsc).length ===
+        0
+      "
+      class="no-results"
+    >
+      No cocktails found.
+    </p>
+  </section>
+</div>

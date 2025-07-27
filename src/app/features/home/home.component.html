@@ -1,0 +1,18 @@
+<div class="home-container">
+  <h2 class="page-title">Cocktail Types</h2>
+
+  <div class="card-grid">
+    <div
+      class="drink-card"
+      *ngFor="let name of cocktailNames; trackBy: trackByName"
+      (click)="goToCocktail(name)"
+    >
+      <div class="drink-content">
+        <div class="drink-title" tabindex="0">{{ name }}</div>
+        <div class="drink-icon">
+          <img [src]="icon" alt="{{ name }} icon" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+
+
+<app-spinner *ngIf="loading"></app-spinner>
+
+<div class="breadcrumb" *ngIf="!loading && drink">
+  <a routerLink="/">Home</a>
+  <ng-container *ngIf="cocktailGroup">
+    &gt;
+    <a [routerLink]="['/cocktail', cocktailGroup]">{{ cocktailGroup }}</a>
+  </ng-container>
+  <ng-container *ngIf="drink">
+    &gt;
+    <span class="breadcrumb-current">{{ drink.strDrink }}</span>
+  </ng-container>
+</div>
+
+<div *ngIf="!loading && drink" class="ingredient-layout">
+  <div class="matched-row">
+
+    <div class="matched-left">
+      <h2>{{ drink.strDrink }}</h2>
+      <img
+        [src]="drink.strDrinkThumb"
+        [alt]="drink.strDrink"
+        class="drink-img"
+        loading="lazy"
+      />
+    </div>
+
+
+    <div class="matched-divider"></div>
+
+
+    <div class="matched-right">
+      <h3>Ingredients</h3>
+      <div class="ingredient-flex">
+        <div
+          class="ingredient-item"
+          *ngFor="let ingredient of ingredients; trackBy: trackByName"
+        >
+          <img
+            [src]="getIngredientImage(ingredient)"
+            [alt]="ingredient"
+            loading="lazy"
+          />
+          <span>{{ ingredient }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

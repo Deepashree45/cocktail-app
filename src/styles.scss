@@ -1,0 +1,15 @@
+/* styles.scss */
+
+@import 'material-icons/iconfont/material-icons.css';
+ 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fdfbf9;
+}
